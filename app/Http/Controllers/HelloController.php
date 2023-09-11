@@ -8,75 +8,58 @@ use Illuminate\Http\Response;
 class HelloController extends Controller
 {
     public function index(Request $request, Response $response) {
-        $html= <<<EOF
-        <html>
-            <head>
-            <title>Hello/Index</title>
-            <style>
-                body {
-                font-size:16pt;
-                color: #999;
-                }
-
-                h1 {
-                font-size: 100px;
-                text-align: right;
-                color: #eee;
-                margin: -40px 0px 50px 0px;
-                }
-            </style>
-            </head>
-            <body>
-            <h1>Hello/Index</h1>
-            <h2>Request</h2>
-            <pre>{$request}</pre>
-            <pre>{$request->host()}</pre>
-            <pre>{$request->httpHost()}</pre>
-            <pre>{$request->schemeAndHttpHost()}</pre>
-            <h2>Response</h2>
-            <pre>{$response}</pre>
-            </body>
-        </html>
-        EOF;
+        $msg = "これはコントローラから渡された値です。";
         
-        // dd($request->url());
-        // dd($request->fullUrl()); // クエリストリングを含む
-        // dd($request->path()); // ドメインを除いたパスを取得する
+        // クエリストリングの取得
+        $id = $request->id ?? 'no id';
+        $full_url = $request->fullUrl();
 
-        $response->setContent($html);
-        return $response;
+        $area = [
+            [
+              'name' => '北海道',
+              'value' => 0
+            ],
+            [
+              'name' => '東北',
+              'value' => 1
+            ],
+            [
+              'name' => '中部',
+              'value' => 2
+            ],
+            [
+              'name' => '関東',
+              'value' => 3
+            ],
+            [
+              'name' => '近畿',
+              'value' => 4
+            ],
+            [
+              'name' => '中国・四国',
+              'value' => 5
+            ],
+            [
+              'name' => '九州・沖縄',
+              'value' => 6
+            ],
+        ];
+
+        $data = ['one', 'two', 'three', 'four', 'five'];
+
+        return view('hello.index', compact('msg', 'id', 'full_url', 'area', 'data'));
     }
 
     public function other(string $id = 'noname', string $pass = 'unknown') {
-        $html= <<<EOF
-        <html>
-            <head>
-            <title>Hello/Other</title>
-            <style>
-                body {
-                font-size:16pt;
-                color: #999;
-                }
+        return view('hello.other', compact('id', 'pass'));
+    }
 
-                h1 {
-                font-size: 100px;
-                text-align: right;
-                color: #eee;
-                margin: -40px 0px 50px 0px;
-                }
-            </style>
-            </head>
-            <body>
-            <h1>Hello/Other</h1>
-            <p>これはHelloControllerのotherメソッドです。</p>
-            <ul>
-                <li>{$id}</li>
-                <li>{$pass}</li>
-            </ul>
-            </body>
-        </html>
-        EOF;
-
-        return $html;
+    public function create() {
+        return view('hello.create');
+    }
+    
+    public function post(Request $request) {
+        $msg = $request->msg;
+        return view('hello.create', compact('msg'));
     }
 }

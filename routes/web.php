@@ -57,5 +57,8 @@ Route::get('/user/{id}', function(int $id) {
     return $id;
 });
 
+Route::get('hello/create', [HelloController::class, 'create'])->name('hello.create');
+Route::post('hello/post', [HelloController::class, 'post'])->name('hello.post');
+
 // シングルアクションコントローラー
 Route::get('/hello2', HelloSingleController::class);
