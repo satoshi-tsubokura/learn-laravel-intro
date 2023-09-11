@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HelloController;
+use App\Http\Controllers\HelloSingleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,44 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/hello', [HelloController::class, 'index']);
+Route::get('/hello/other/{id?}/{pass?}', [HelloController::class, 'other']);
+
+Route::get('/msg/{msg?}', function (string $msg = 'no message') {
+    $html= <<<EOF
+    <html>
+        <head>
+        <title>Hello</title>
+        <style>
+            body {
+            font-size:16pt;
+            color: #999;
+            }
+
+            h1 {
+            font-size: 100px;
+            text-align: right;
+            color: #eee;
+            margin: -40px 0px 50px 0px;
+            }
+        </style>
+        </head>
+        <body>
+        <h1>Hello</h1>
+        <p>{$msg}</p>
+        <p>これはサンプルで作ったページです</p>
+        </body>
+    </html>
+    EOF;
+    return $html;
+})
+->where('msg', '[A-Za-z_]+')// パラメーターを正規表現でチェックする
+->name('msg'); 
+
+Route::get('/user/{id}', function(int $id) {
+    return $id;
+});
+
+// シングルアクションコントローラー
+Route::get('/hello2', HelloSingleController::class);
