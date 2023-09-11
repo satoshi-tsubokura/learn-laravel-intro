@@ -60,7 +60,7 @@
     @yield('content')
   </div>
   <div class="footer">
-    @yield('footer')
+    @include('components.footer', ['text' => 'フッターです'])
   </div>
 </body>
 </html>

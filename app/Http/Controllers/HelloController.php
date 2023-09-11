@@ -47,7 +47,9 @@ class HelloController extends Controller
 
         $data = ['one', 'two', 'three', 'four', 'five'];
 
-        return view('hello.index', compact('msg', 'id', 'full_url', 'area', 'data'));
+        $users = $request->users;
+
+        return view('hello.index', compact('msg', 'id', 'full_url', 'area', 'data', 'users'));
     }
 
     public function other(string $id = 'noname', string $pass = 'unknown') {

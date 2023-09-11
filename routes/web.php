@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\HelloSingleController;
+use App\Http\Middleware\HelloMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello', [HelloController::class, 'index']);
+Route::get('/hello', [HelloController::class, 'index'])
+    ->name('hello.index')
+    ->middleware('hello');
 Route::get('/hello/other/{id?}/{pass?}', [HelloController::class, 'other']);
 
 Route::get('/msg/{msg?}', function (string $msg = 'no message') {

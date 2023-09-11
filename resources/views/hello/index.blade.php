@@ -8,6 +8,30 @@
 @endsection
 
 @section('content')
+@component('components.message')
+  @slot('type') danger @endslot
+  @slot('msg_title')
+      <a href="{{route('hello.index')}}">CAUTION</a>
+  @endslot
+
+  @slot('msg_content')
+      これはメッセージの表示です。
+  @endslot
+@endcomponent
+<form action="{{route('hello.index')}}" method="get">
+  @component('components.primary-button', ['class' => 'md-4', 'type' => 'primary'])
+    @slot('text')
+      ページ遷移
+    @endslot
+  @endcomponent
+</form>
+
+<ul>
+  @each('components.item', $users, 'item', 'components.item-empty')
+</ul>
+
+<p>ビューコンポーザーメッセージ: {{$view_message}}</p>
+
 <p>This is a sample page with php-template</p>
 <p>{{$msg}}</p>
 <p>id: {{$id}}</p>
@@ -69,8 +93,4 @@
     @endwhile
   </ol>
 </div>
-@endsection
-
-@section('footer')
-    copyright 2017 tuyano.
 @endsection
