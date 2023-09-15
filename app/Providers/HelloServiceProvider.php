@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Composers\HelloComposer;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View as ViewView;
@@ -24,5 +25,8 @@ class HelloServiceProvider extends ServiceProvider
 
         // コンポーザークラスを用いたビューコンポーザーの登録
         View::composer('hello.index', HelloComposer::class);
+        Validator::extend('hiragana', function($attribute, $value, $parameters, $validator) {
+            return preg_match('/\A[ぁ-ゖ]+\z/', $value);
+        },':attributeはひらがなで入力してください。');
     }
 }

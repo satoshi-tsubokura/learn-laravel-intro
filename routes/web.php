@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CookieController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\HelloSingleController;
 use Illuminate\Support\Facades\Route;
@@ -64,3 +65,6 @@ Route::post('hello/create', [HelloController::class, 'post'])->name('hello.post'
 
 // シングルアクションコントローラー
 Route::get('/hello2', HelloSingleController::class);
+
+Route::get('/cookie', [CookieController::class, 'index'])->name('cookie.index');
+Route::post('/cookie', [CookieController::class, 'post'])->name('cookie.post');

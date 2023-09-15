@@ -36,6 +36,7 @@
 <p>ミドルウェアレスポンス前変換: <middleware>google.com</middleware></p>
 <p>{{$msg}}</p>
 <p>id: {{$id}}</p>
+<p>pass: {{$pass}}</p>
 <p>url: {{$full_url}}</p>
 <p>{{date("Y年m月d日")}}</p>
 <label for="area">
