@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\HelloSingleController;
-use App\Http\Middleware\HelloMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +21,7 @@ Route::get('/', function () {
 
 Route::get('/hello', [HelloController::class, 'index'])
     ->name('hello.index')
-    ->middleware('hello');
+    ->middleware('helo');
 Route::get('/hello/other/{id?}/{pass?}', [HelloController::class, 'other']);
 
 Route::get('/msg/{msg?}', function (string $msg = 'no message') {
@@ -61,7 +60,7 @@ Route::get('/user/{id}', function(int $id) {
 });
 
 Route::get('hello/create', [HelloController::class, 'create'])->name('hello.create');
-Route::post('hello/post', [HelloController::class, 'post'])->name('hello.post');
+Route::post('hello/create', [HelloController::class, 'post'])->name('hello.post');
 
 // シングルアクションコントローラー
 Route::get('/hello2', HelloSingleController::class);

@@ -61,7 +61,14 @@ class HelloController extends Controller
     }
     
     public function post(Request $request) {
-        $msg = $request->msg;
+      $validate_rule = [
+        'name' => 'required',
+        'mail' => 'email',
+        'age' => 'numeric|max:150|min:10'
+      ];
+      $request->validate($validate_rule);
+
+        $msg = 'メッセージは正しく入力されました。';
         return view('hello.create', compact('msg'));
     }
 }

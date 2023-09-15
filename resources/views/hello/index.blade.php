@@ -33,6 +33,7 @@
 <p>ビューコンポーザーメッセージ: {{$view_message}}</p>
 
 <p>This is a sample page with php-template</p>
+<p>ミドルウェアレスポンス前変換: <middleware>google.com</middleware></p>
 <p>{{$msg}}</p>
 <p>id: {{$id}}</p>
 <p>url: {{$full_url}}</p>

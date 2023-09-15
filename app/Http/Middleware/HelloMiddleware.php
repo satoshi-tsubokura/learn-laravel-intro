@@ -15,6 +15,7 @@ class HelloMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        /*-----  以下、リクエストを受け取ってからコントローラーアクション実行の間に行われる処理  -----*/
         $users = [
             [
                 'name' => '山田太郎',
@@ -31,6 +32,17 @@ class HelloMiddleware
         ];
 
         $request->mergeIfMissing(['users' => $users]);
-        return $next($request);
+
+        // コントローラーのアクション実行
+        $response = $next($request);
+
+        /*-----  以下、アクションとレスポンスの間に行われる処理  -----*/
+        $content = $response->getContent();
+        $pattern = '/<middleware>(.*)<\/middleware>/i';
+        $replace = '<a href="http://$1">$1</a>';
+        $content = preg_replace($pattern, $replace, $content);
+
+        $response->setContent($content);
+        return $response;
     }
 }
