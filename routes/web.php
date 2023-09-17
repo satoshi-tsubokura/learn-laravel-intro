@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CookieController;
+use App\Http\Controllers\DBFacadesController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\HelloSingleController;
 use Illuminate\Support\Facades\Route;
@@ -68,3 +69,9 @@ Route::get('/hello2', HelloSingleController::class);
 
 Route::get('/cookie', [CookieController::class, 'index'])->name('cookie.index');
 Route::post('/cookie', [CookieController::class, 'post'])->name('cookie.post');
+Route::get('/db_facade', [DBFacadesController::class, 'index'])->name('db_facade.index');
+Route::get('/db_facade/add', [DBFacadesController::class, 'add'])->name('db_facade.add');
+Route::post('/db_facade/add', [DBFacadesController::class, 'store'])->name('db_facade.store');
+Route::get('/db_facade/edit/{id}', [DBFacadesController::class, 'edit'])->name('db_facade.edit');
+Route::put('/db_facade/edit/{id}', [DBFacadesController::class, 'update'])->name('db_facade.update');
+Route::delete('/db_facade/delete/{id}', [DBFacadesController::class, 'destroy'])->name('db_facade.delete');
