@@ -19,7 +19,12 @@ class PersonController extends Controller
 
     public function search(Request $request) {
         $input = $request->input;
-        $person = Person::find($input);
-        return view('person.find', compact('person', 'input'));
+        // $person = Person::find($input);
+        $people = Person::whereLike('name', $input)->get();
+        // dd($people);
+        // $people = Person::ageGreaterThan((int) $input)
+        //                 ->ageLessThan((int) $input + 10)
+        //                 ->get();
+        return view('person.find', compact('people', 'input'));
     }
 }
