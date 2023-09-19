@@ -4,6 +4,7 @@ use App\Http\Controllers\CookieController;
 use App\Http\Controllers\DBFacadesController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\HelloSingleController;
+use App\Http\Controllers\PersonController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -78,3 +79,7 @@ Route::post('/db_facade/add', [DBFacadesController::class, 'store'])->name('db_f
 Route::get('/db_facade/edit/{id}', [DBFacadesController::class, 'edit'])->name('db_facade.edit');
 Route::put('/db_facade/edit/{id}', [DBFacadesController::class, 'update'])->name('db_facade.update');
 Route::delete('/db_facade/delete/{id}', [DBFacadesController::class, 'destroy'])->name('db_facade.delete');
+
+Route::get('/person', [PersonController::class, 'index'])->name('person.index');
+Route::get('/person/find', [PersonController::class, 'find'])->name('person.find');
+Route::post('/person/find', [PersonController::class, 'search'])->name('person.search');

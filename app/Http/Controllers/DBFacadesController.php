@@ -136,9 +136,30 @@ class DBFacadesController extends Controller
         //                 ->exists();
         // dd($is_exists);
 
-        $people = DB::table('people')->distinct()->get();
-        foreach($people as $person) {
-            echo "{$person->name}: {$person->mail}<br>";
-        }
+        // $people = DB::table('people')->distinct()->get();
+        // foreach($people as $person) {
+        //     echo "{$person->name}: {$person->mail}<br>";
+        // }
+
+        // 内部結合
+        $posts = DB::table('post as p')
+                    ->select(['p.id', 'p.title', 'p.body', 'pe.name', 'pe.id as pe_id'])
+                    ->rightJoin('people as pe', 'p.people_id', '=', 'pe.id')
+                    ->limit(100)
+                    ->whereNotExists(function (Builder $query) {
+                        $query->select(DB::raw(1))
+                              ->from('post as p2')
+                              // カラム同士の比較や結合はwhereではなく、whereColumnを使う
+                              ->whereColumn('p2.people_id', '=', 'pe.id')
+                              ->whereColumn('p2.id', '>', 'p.id');
+                    })
+                    ->get();
+        // dd($posts);
+
+        DB::table('people')
+            ->updateOrInsert(
+                ['name' => 'hiroshi tsubokura'],
+                ['age' => '58']
+            );
     }
 }
