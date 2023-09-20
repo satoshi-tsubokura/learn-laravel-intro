@@ -83,3 +83,8 @@ Route::delete('/db_facade/delete/{id}', [DBFacadesController::class, 'destroy'])
 Route::get('/person', [PersonController::class, 'index'])->name('person.index');
 Route::get('/person/find', [PersonController::class, 'find'])->name('person.find');
 Route::post('/person/find', [PersonController::class, 'search'])->name('person.search');
+Route::get('/person/add', [PersonController::class, 'add'])->name('person.add');
+Route::post('/person/add', [PersonController::class, 'create'])->name('person.create');
+Route::get('/person/edit/{person}', [PersonController::class, 'edit'])->name('person.edit');
+Route::put('/person/edit/{person}', [PersonController::class, 'store'])->name('person.store');
+Route::delete('/person/delete/{person}', [PersonController::class, 'destroy'])->name('person.destroy');

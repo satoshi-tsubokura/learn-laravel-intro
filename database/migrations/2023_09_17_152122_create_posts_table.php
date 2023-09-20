@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('people_id')
+            $table->foreignId('perple_id')
                 ->nullable()
                 ->constrained('people')
                 ->nullOnDelete();
@@ -29,7 +29,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropForeign(['people_id']);
+        Schema::dropForeign(['person_id']);
         Schema::dropIfExists('posts');
     }
 };

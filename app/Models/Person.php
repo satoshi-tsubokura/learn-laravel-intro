@@ -12,6 +12,14 @@ class Person extends Model
 {
     use HasFactory, WhereLikeTrait;
 
+    protected $guarded = ['id'];
+
+    public static $rules = [
+        'name' => 'required',
+        'mail' => 'email',
+        'age' => 'integer|min:0|max:150'
+    ];
+
     protected static function booted(): void {
         static::addGlobalScope(new PersonScope);
     }
