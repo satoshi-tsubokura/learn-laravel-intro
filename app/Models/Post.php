@@ -9,15 +9,30 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected array $guarded = ['id'];
+    protected $guarded = ['id'];
+
+    protected $with = ['person', 'evaluation'];
 
     public static $rules = [
         'person_id' => 'required|integer|min:1',
         'title' => 'required|max:255',
-        'message' => 'required|max:1000'
+        'body' => 'required|max:1000'
     ];
 
+    public function person() {
+        // withDefaultで主テーブルに紐づくユーザーが存在しない場合の表示を指定できる。
+        return $this->belongsTo(Person::class)->withDefault([
+            'name' => 'delete user',
+            'age' => '-1'
+        ]);
+    }
+
+    // クエリビルだとしても機能する。
+    public function evaluation() {
+        return $this->hasOne(Evaluation::class);
+    }
+
     public function getData() {
-        return "{$this->id}: {$this->title}";
+        return "{$this->id}: {$this->title}({$this->person?->id}: {$this->person?->name})";
     }
 }

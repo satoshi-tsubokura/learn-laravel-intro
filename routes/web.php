@@ -5,6 +5,8 @@ use App\Http\Controllers\DBFacadesController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\HelloSingleController;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\RestdataController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,5 +88,14 @@ Route::post('/person/find', [PersonController::class, 'search'])->name('person.s
 Route::get('/person/add', [PersonController::class, 'add'])->name('person.add');
 Route::post('/person/add', [PersonController::class, 'create'])->name('person.create');
 Route::get('/person/edit/{person}', [PersonController::class, 'edit'])->name('person.edit');
+Route::get('/person/edit/{person}', [PersonController::class, 'edit'])->name('person.edit');
 Route::put('/person/edit/{person}', [PersonController::class, 'store'])->name('person.store');
 Route::delete('/person/delete/{person}', [PersonController::class, 'destroy'])->name('person.destroy');
+
+Route::get('/post', [PostController::class, 'index'])->name('post.index');
+Route::get('/post/add', [PostController::class, 'add'])->name('post.add');
+Route::post('/post/add', [PostController::class, 'create'])->name('post.create');
+Route::get('/post/person/{person}', [PostController::class, 'person_index'])->name('post.person_index');
+Route::get('/post/even', [PostController::class, 'even_index'])->name('post.even_index');
+
+Route::resource('/rest', RestdataController::class);

@@ -40,4 +40,37 @@ class Person extends Model
     public function scopeAgeLessThan(Builder $query, int $age) {
         $query->where('age', '<=', $age);
     }
+
+    public function post() {
+        return $this->hasOne(Post::class);
+    }
+
+    public function posts() {
+        return $this->hasMany(Post::class);
+    }
+
+    public function latestPost() {
+        return $this->posts()->one()->ofMany([
+            'created_at' => 'max',
+            'id' => 'max',
+        ], function (Builder $query) {
+            $query->whereDate('created_at', '<', '2023-09-30');
+        });
+    }
+
+    public function oldestPost() {
+        return $this->posts()->one()->oldestOfMany();
+    }
+
+    public function evaluations() {
+        return $this->hasManyThrough(Evaluation::class, Post::class);
+    }
+
+    public function countGood() {
+        return $this->evaluations->sum('good');
+    }
+
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'people_roles', 'person_id', 'role_id')->withTimestamps();
+    }
 }
