@@ -17,7 +17,11 @@ class PersonFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'mail' => fake()->safeEmail(),
+            'age' => random_int(1, 99),
+            'created_at' => fake()->dateTimeThisDecade(),
+            'updated_at' => now()
         ];
     }
 }

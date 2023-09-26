@@ -13,7 +13,9 @@ class RestdataController extends Controller
      */
     public function index()
     {
-        //
+        $data = Restdata::all();
+
+        return $data->toArray();
     }
 
     /**
@@ -21,7 +23,7 @@ class RestdataController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.create');
     }
 
     /**
@@ -29,21 +31,25 @@ class RestdataController extends Controller
      */
     public function store(StoreRestdataRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $rest = new Restdata();
+        $rest->fill($validated)->save();
+
+        return redirect()->route('rest.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Restdata $restdata)
+    public function show(Restdata $rest)
     {
-        //
+        return $rest->toArray();
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Restdata $restdata)
+    public function edit(Restdata $rest)
     {
         //
     }
@@ -51,7 +57,7 @@ class RestdataController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRestdataRequest $request, Restdata $restdata)
+    public function update(UpdateRestdataRequest $request, Restdata $rest)
     {
         //
     }
@@ -59,7 +65,7 @@ class RestdataController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Restdata $restdata)
+    public function destroy(Restdata $rest)
     {
         //
     }

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Person;
+use App\Models\Post;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -14,18 +16,13 @@ class PeopleSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [];
-        for ($i = 0; $i <= 10; $i++) {
-            $date_time = fake()->dateTimeBetween('-1years', 'now');
-            $data[] = [
-                'name' => fake()->name,
-                'mail' => fake()->safeEmail(),
-                'age' => fake()->numberBetween(10, 100),
-                'created_at' => $date_time,
-                'updated_at' => $date_time,
-            ];
-        }
+        // Person::factory()
+        //     ->has(Post::factory()->count(rand(1, 5)))
+        //     ->count(5)
+        //     ->create();
 
-        DB::table('people')->insert($data);
+        Person::factory()
+            ->hasPosts(3) // Personのpostsリレーションメソッドを利用
+            ->create();
     }
 }

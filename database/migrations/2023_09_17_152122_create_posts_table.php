@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('perple_id')
+            $table->foreignId('people_id')
                 ->nullable()
                 ->constrained('people')
                 ->nullOnDelete();
             $table->string('title', 255);
             $table->text('body');
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('created_at')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 
@@ -29,7 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropForeign(['person_id']);
         Schema::dropIfExists('posts');
     }
 };

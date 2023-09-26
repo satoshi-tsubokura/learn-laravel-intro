@@ -11,10 +11,10 @@ class Restdata extends Model
 
     protected $guarded = ['id'];
 
-    public static $rules = [
-        'message' => 'required',
-        'url' => 'required',
-    ];
+    // public static $rules = [
+    //     'message' => 'required',
+    //     'url' => 'required',
+    // ];
 
     public function getData() {
         return $this->id . ':' . $this->message . '(' . $this->url . ')';

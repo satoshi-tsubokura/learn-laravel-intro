@@ -8,7 +8,15 @@
 @endsection
 
 @section('content')
-  <table>
+@auth
+  <p>User: {{$user->name}}: ({{$user->email}})</p>   
+@endauth
+
+@guest
+  <p>ログインしていません。</p>
+  <a href="{{route('login')}}">ログイン</a>   
+@endguest
+  {{-- <table>
     <tr>
       <th>Data(投稿済みユーザー)</th>
     </tr>
@@ -33,23 +41,21 @@
       </td>
     </tr>    
     @endforeach
-  </table>
+  </table> --}}
   <hr>
   <table>
     <tr>
-      <th>Data(未投稿ユーザー)</th>
+      <th><a href="{{route('person.index', ['sort' => 'name'])}}">name</a></th>
+      <th><a href="{{route('person.index', ['sort' => 'mail'])}}">mail</a></th>
+      <th><a href="{{route('person.index', ['sort' => 'age'])}}">age</a></th>
     </tr>
-    @foreach ($no_posts_people as $person)
+    @foreach ($people as $person)
     <tr>
-      <td>{{$person->getData()}}</td>
-      <td>
-        <form action="{{route('person.destroy', $person)}}" method="POST">
-          @csrf
-          @method('DELETE')
-          <button type="submit">削除</button>
-        </form>
-      </td>
+      <td>{{$person->name}}</td>
+      <td>{{$person->mail}}</td>
+      <td>{{$person->age}}</td>
     </tr>    
     @endforeach
   </table>
+  {{$people->appends(['sort' => $sort])->links('vendor.pagination.tailwind')}}
 @endsection

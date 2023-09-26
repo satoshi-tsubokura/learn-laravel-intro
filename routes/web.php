@@ -1,13 +1,17 @@
 <?php
 
+use App\Http\Composers\HelloComposer;
 use App\Http\Controllers\CookieController;
 use App\Http\Controllers\DBFacadesController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\HelloSingleController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RestdataController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,14 +19,30 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 
 Route::get('/hello', [HelloController::class, 'index'])
     ->name('hello.index')
@@ -66,6 +86,8 @@ Route::get('/user/{id}', function(int $id) {
 
 Route::get('hello/create', [HelloController::class, 'create'])->name('hello.create');
 Route::post('hello/create', [HelloController::class, 'post'])->name('hello.post');
+Route::get('hello/login', [HelloController::class, 'login'])->middleware(['guest'])->name('hello.login');
+Route::post('hello/login', [HelloController::class, 'auth'])->middleware(['guest'])->name('hello.auth');
 
 // シングルアクションコントローラー
 Route::get('/hello2', HelloSingleController::class);
@@ -93,9 +115,9 @@ Route::put('/person/edit/{person}', [PersonController::class, 'store'])->name('p
 Route::delete('/person/delete/{person}', [PersonController::class, 'destroy'])->name('person.destroy');
 
 Route::get('/post', [PostController::class, 'index'])->name('post.index');
-Route::get('/post/add', [PostController::class, 'add'])->name('post.add');
+Route::get('/post/add', [PostController::class, 'add'])->name('post.add')->middleware(['auth']);
 Route::post('/post/add', [PostController::class, 'create'])->name('post.create');
 Route::get('/post/person/{person}', [PostController::class, 'person_index'])->name('post.person_index');
 Route::get('/post/even', [PostController::class, 'even_index'])->name('post.even_index');
-
 Route::resource('/rest', RestdataController::class);
+require __DIR__.'/auth.php';

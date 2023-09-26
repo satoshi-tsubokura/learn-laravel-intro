@@ -6,22 +6,26 @@ use App\Models\Person;
 use App\Models\Role;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PersonController extends Controller
 {
     public function index(Request $request) {
         // 
-        $posts_people = Person::with(['posts' => function(Builder $query) {
-            $query->orderBy('created_at', 'desc');
-        }, 'evaluations'])->has('posts')->limit(10)->get();
-        $no_posts_people = Person::doesntHave('posts')->limit(10)->get();
-
+        // $posts_people = Person::with(['posts' => function(Builder $query) {
+        //     $query->orderBy('created_at', 'desc');
+        // }, 'evaluations'])->has('posts')->limit(10)->get();
+        // $no_posts_people = Person::doesntHave('posts')->limit(10)->get();
+            $user = Auth::user();
+            $sort = $request->sort ?? 'id';
+            $people = Person::orderBy($sort, 'asc')->paginate(5);
         // foreach($posts_people[0]->roles as $role) {
         //     echo $role->pivot;
         //     echo "<br>";
         // }
         // exit;
-        return view('person.index', compact('posts_people', 'no_posts_people'));
+        return view('person.index', compact('people', 'sort', 'user'));
     }
 
     public function find(Request $request) {

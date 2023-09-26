@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\HelloRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Fluent;
 
@@ -12,7 +13,7 @@ class HelloController extends Controller
 {
     public function index(Request $request, Response $response) {
         // $msg = "これはコントローラから渡された値です。";
-        
+        dd(app());
         // クエリストリングのバリデーション
         $validator = Validator::make($request->query(), [
           'id' => 'integer',
@@ -116,5 +117,38 @@ class HelloController extends Controller
         
         $msg = 'メッセージは正しく入力されました。';
         return view('hello.create', compact('msg'));
+    }
+
+    public function ses_get(Request $request) {
+      $session_data_list = $request->session()->get('list', []);
+      $request->session()->increment('count');
+      $count = $request->session()->get('count', 1);
+      return view('hello.session', compact('session_data_list', 'count'));
+    }
+
+    public function ses_put(Request $request) {
+      $request->session()->push('list', $request->input);
+
+      return redirect()->route('hello.ses_get');
+    }
+
+    public function login(Request $request) {
+      return view('hello.auth');
+    }
+
+    public function auth(Request $request) {
+      $validated = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+      ]);
+
+      if(Auth::attempt($validated)) {
+        // セッション固定化攻撃対策
+        $request->session()->regenerate();
+
+        return redirect()->intended('hello.index');
+
+      }
+      return back()->with('message', 'ログインに失敗しました。');
     }
 }

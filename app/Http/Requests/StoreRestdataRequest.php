@@ -11,7 +11,8 @@ class StoreRestdataRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // 本来はユーザーがログイン済みかをチェックする必要がある。
+        return true;
     }
 
     /**
@@ -22,7 +23,8 @@ class StoreRestdataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'message' => 'required',
+            'url' => 'required',
         ];
     }
 }
