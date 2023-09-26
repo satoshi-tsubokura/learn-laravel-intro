@@ -13,7 +13,7 @@ class HelloController extends Controller
 {
     public function index(Request $request, Response $response) {
         // $msg = "これはコントローラから渡された値です。";
-        dd(app());
+        // dd(app());
         // クエリストリングのバリデーション
         $validator = Validator::make($request->query(), [
           'id' => 'integer',

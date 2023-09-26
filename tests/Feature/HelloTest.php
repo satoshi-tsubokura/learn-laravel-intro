@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class HelloTest extends TestCase
@@ -44,8 +45,31 @@ class HelloTest extends TestCase
         $response->assertStatus(302);
     }
 
+    public function test_login() {
+        $user = User::factory()->make();
+        $response = $this->actingAs($user)->get('/dashboard');
+        $response->assertStatus(200);
+    }
+
     public function test_not_found() {
         $response = $this->get('/msg/1');
         $response->assertStatus(404);
+    }
+
+    public function test_db() {
+        $user = User::factory()->create([
+            'name' => 'AAA',
+            'email' => 'BBB@CCC.COM',
+            'password' => 'ABCABC'
+        ]);
+
+        User::factory()->count(10)->create();
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'AAA',
+            'email' => 'BBB@CCC.COM',
+        ]);
+
+        $this->assertTrue(Hash::check('ABCABC', $user->password));
     }
 }

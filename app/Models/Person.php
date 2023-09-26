@@ -21,7 +21,7 @@ class Person extends Model
     ];
 
     protected static function booted(): void {
-        static::addGlobalScope(new PersonScope);
+        // static::addGlobalScope(new PersonScope);
     }
 
     public function getData() {

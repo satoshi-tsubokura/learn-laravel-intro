@@ -4,14 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Person;
 use App\Models\Post;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index(Request $request) {
-        $posts = Post::with('person')->orderBy('created_at')->get();
+        $sort = $request->sort;
+        $posts = Post::with(['person'])->join('people', 'posts.person_id' , '=', 'people.id')
+        ->select('posts.*')
+        ->orderBy($sort ?? 'created_at', 'asc')
+        ->paginate(5);
+        // ->toSql();
+        dd(count($posts));
+        // $posts = Post::with(['person'])->paginate(100);
+            // dd($posts);
         
-        return view('post.index', compact('posts'));        
+        return view('post.index', compact('posts', 'sort'));        
     }
 
     public function add(Request $request) {
