@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>@yield('title')</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/css/app.css">
-  <script src="/js/app.js"></script>
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  
+  {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
   <style>
     body {
     font-size:16pt;

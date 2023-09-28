@@ -3,6 +3,7 @@
 use App\Http\Composers\HelloComposer;
 use App\Http\Controllers\CookieController;
 use App\Http\Controllers\DBFacadesController;
+use App\Http\Controllers\FlashController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\HelloSingleController;
 use App\Http\Controllers\PersonController;
@@ -120,4 +121,7 @@ Route::post('/post/add', [PostController::class, 'create'])->name('post.create')
 Route::get('/post/person/{person}', [PostController::class, 'person_index'])->name('post.person_index');
 Route::get('/post/even', [PostController::class, 'even_index'])->name('post.even_index');
 Route::resource('/rest', RestdataController::class);
+
+Route::get('/flash/practice', [FlashController::class, 'getIndex']);
+Route::post('/flash/practice', [FlashController::class, 'postIndex']);
 require __DIR__.'/auth.php';

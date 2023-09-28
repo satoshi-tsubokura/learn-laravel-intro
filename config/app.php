@@ -169,7 +169,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\HelloServiceProvider::class,
-    ])->toArray(),
+        App\Providers\FormInputsProvider::class,
+        ])->toArray(),
 
     /*
     |--------------------------------------------------------------------------

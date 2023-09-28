@@ -1,0 +1,1 @@
+<input {{$attributes->class([$inputClass($type)])}} type={{$type}} name={{$name}} value="{{$value}}">

@@ -6,8 +6,30 @@
   @parent
   インデックスページ
 @endsection
-
+@php
+$message = 'アラート表示テスト';
+$placeholder = "パスワード"
+@endphp
 @section('content')
+<h2 class="text-3xl font-bold underline">
+    Hello world!
+  </h2>
+<x-menu color="gray">
+  <x-menu.item is-heading>
+    heading
+  </x-menu.item>
+  <x-menu.item>
+    heading
+  </x-menu.item>
+</x-menu>
+<x-forms.input type="password" name="password" :$placeholder />
+<x-alert alert-type="info" class="test_alert_comp">
+  <p>この値は$slotに埋め込まれます。</p>
+  <p>スロットのいいところはhtmlを埋め込むことが可能なところです。</p>
+  <x-slot:message class="mx-2">{{$component->default_message}}</x-slot:message>
+</x-alert>
+<x-test-button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ボタン</x-test-button>
+{{-- <x-alert alert-type="error" :message="$message"></x-alert> --}}
 @component('components.message')
   @slot('type') danger @endslot
   @slot('msg_title')
